@@ -13,6 +13,7 @@ function getPhoneArea() {
             var _obj = {};
             _obj.code = $this.attr('data-code');
             _obj.name = $this.text().replace(' ', '').replace($this.attr('data-code'), '').replace('(', '').replace(')', '').replace(' ', '').replace('+', '');
+            _obj.check = $this.attr('check-key');
             listArray.push(_obj);
         });
         listArray.sort(function (a, b) {
@@ -27,16 +28,11 @@ function getPhoneArea() {
             }
         });
         var _path = 'api/phoneArea.json';
-        fs.exists(_path, function (exists) {
-            if (exists) {
-                fs.unlink(_path);
+        fs.writeFile(_path, JSON.stringify(listArray), function (err) {
+            if (err) {
+                console.log(err);
             }
-            fs.writeFile(_path, JSON.stringify(listArray), function (err) {
-                if (err) {
-                    console.log(err);
-                }
-                console.log(_path + ' create success!');
-            });
+            console.log(_path + ' create success!');
         });
     });
 }
