@@ -22,7 +22,7 @@ jsonOperate.prototype = {
             }
             else {
                 if (_this.isArray(_data)) {
-                    _this.data = _this.operate(_data, json, 1);
+                    _this.data = _this._select(_data, json);
                 }
                 else if (_this.isObject(_data)) {
                     if (typeof json === 'string') {
@@ -37,7 +37,7 @@ jsonOperate.prototype = {
         var _this = this;
         if (_this.data && typeof _this.data === 'object') {
             if (_this.isArray(_this.data)) {
-                if (_this.operate(_this.data, json, 1).length == 0) {
+                if (_this._select(_this.data, json).length == 0) {
                     _this.data.push(json);
                 }
             }
@@ -48,7 +48,7 @@ jsonOperate.prototype = {
             }
         }
         else {
-            if (_this.operate(_this.data, json, 1).length == 0) {
+            if (_this._select(_this.data, json).length == 0) {
                 _this.data.push(json);
             }
         }
@@ -60,19 +60,55 @@ jsonOperate.prototype = {
     },
     delete: function (json) {
         var _this = this;
-        var _data = _this.operate(_this.data, json, 3);
-        if (_data.length !== _this.data.length) {
-            _this.data = _data;
-            _this.write();
-        }
+        _this._delete(_this.data, json);
+        _this.write();
     },
     /**
-     * array object operate
+     * select
+     * @param array
+     * @param obj
+     */
+    _select: function (array, obj) {
+        var _arr = [];
+        for (var i = 0; i < array.length; i++) {
+            var _obj = array[i];
+            for (key in _obj) {
+                // 单个id值
+                if (typeof obj === 'number') {
+                    if (_obj['id'] === obj) {
+                        _arr.push(_obj);
+                        _obj = {};
+                        break;
+                    }
+                }
+                // 有id值
+                else if (obj.id) {
+                    if (_obj[key] == obj[key]) {
+                        _arr.push(_obj);
+                        _obj = {};
+                        break;
+                    }
+                }
+                else {
+                    for (k in obj) {
+                        console.log(k);
+                        if (_obj[k].indexOf(obj[k]) > -1) {
+                            _arr.push(_obj);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return _arr;
+    },
+    /**
+     * update
      * @param array
      * @param obj
      * @param type 1:select;2:update;3:delete;
      */
-    operate: function (array, obj, type) {
+    _update: function (array, obj, type) {
         var _arr = [];
         for (var i = 0; i < array.length; i++) {
             var _obj = array[i];
@@ -116,6 +152,42 @@ jsonOperate.prototype = {
         }
         return _arr;
     },
+
+    /**
+     * delete
+     * @param array
+     * @param obj
+     */
+    _delete: function (array, obj) {
+        for (var i = 0; i < array.length; i++) {
+            var _obj = array[i];
+            for (key in _obj) {
+                // 单个id值
+                if (typeof obj === 'number') {
+                    if (_obj['id'] === obj) {
+                        array.splice(i, 1);
+                    }
+                    break;
+                }
+                // 有id值
+                else if (obj.id) {
+                    if (_obj[key] == obj[key]) {
+                        array.splice(i, 1);
+                        break;
+                    }
+                }
+                else {
+                    for (k in obj) {
+                        if (_obj[k].indexOf(obj[k]) > -1) {
+                            array.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    },
+
     read: function () {
         return JSON.parse(fs.readFileSync(this.url));
     },
