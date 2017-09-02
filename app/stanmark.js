@@ -50,9 +50,9 @@ function setJson() {
                 _obj = {};
                 _obj.id = _landscapeId;
                 _obj.name = _arr[i];
-                // _obj.image = '';
-                // _obj.desc = '';
-                // _obj.pid = pid;
+                _obj.image = '';
+                _obj.desc = '';
+                _obj.pid = pid;
                 landscapeArray.push(_obj);
                 _landscapeId++;
 
@@ -69,9 +69,9 @@ function setJson() {
                 _obj = {};
                 _obj.id = _foodId;
                 _obj.name = _arr[i];
-                // _obj.image = '';
-                // _obj.desc = '';
-                // _obj.pid = pid;
+                _obj.image = '';
+                _obj.desc = '';
+                _obj.pid = pid;
                 foodArray.push(_obj);
                 _foodId++;
 
@@ -88,9 +88,9 @@ function setJson() {
                 _obj = {};
                 _obj.id = _specialtyId;
                 _obj.name = _arr[i];
-                // _obj.image = '';
-                // _obj.desc = '';
-                // _obj.pid = pid;
+                _obj.image = '';
+                _obj.desc = '';
+                _obj.pid = pid;
                 specialtyArray.push(_obj);
                 _specialtyId++;
                 
@@ -107,9 +107,9 @@ function setJson() {
                 _obj = {};
                 _obj.id = _peopleId;
                 _obj.name = _arr[i];
-                // _obj.image = '';
-                // _obj.desc = '';
-                // _obj.pid = pid;
+                _obj.image = '';
+                _obj.desc = '';
+                _obj.pid = pid;
                 peopleArray.push(_obj);
                 _peopleId++;
                 
@@ -126,9 +126,9 @@ function setJson() {
                 _obj = {};
                 _obj.id = _listId;
                 _obj.name = _arr[i];
-                // _obj.image = '';
-                // _obj.desc = '';
-                // _obj.pid = pid;
+                _obj.image = '';
+                _obj.desc = '';
+                _obj.pid = pid;
                 listArray.push(_obj);
                 _listId++;
                 
@@ -192,13 +192,13 @@ function setJson() {
             }
             console.log(_other + ' create success!');
         });
-        var _stanmark = 'api/stanmark/stanmark.json';
-        fs.writeFile(_stanmark, JSON.stringify(stanmark), function (err) {
-            if (err) {
-                console.log(err);
-            }
-            console.log(_other + ' create success!');
-        });
+        // var _stanmark = 'api/stanmark/stanmark.json';
+        // fs.writeFile(_stanmark, JSON.stringify(stanmark), function (err) {
+        //     if (err) {
+        //         console.log(err);
+        //     }
+        //     console.log(_other + ' create success!');
+        // });
     });
 }
 
